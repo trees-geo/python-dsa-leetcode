@@ -23,6 +23,7 @@
 
 tup = (1,4,2,2,2)
 count = [index for index, item in enumerate(tup) if item == 2]
+count = tup.count(2)
 print(count)
 
 tup = tup*3
@@ -99,3 +100,14 @@ out = {''.join(sorted(word)): [word] for word in list_of_words}
 print(out.values())
 # list_of_words= ['evil', 'vile', 'live', 'veil']
 print(word_list(list_of_words)) 
+
+
+memo = [0, 1]
+n=5
+# Loop from the 2nd index up to and including n
+for i in range(2, n + 1):
+    # Calculate the current Fibonacci number using the two preceding ones
+    # already stored in the memo list.
+    v = memo[i - 1] + memo[i - 2]
+    memo.append(v)
+print(memo)
