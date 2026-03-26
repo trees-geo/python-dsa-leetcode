@@ -111,3 +111,67 @@ for i in range(2, n + 1):
     v = memo[i - 1] + memo[i - 2]
     memo.append(v)
 print(memo)
+
+s=''
+for i in range(10):
+    s+=str(i)
+print(s)
+
+class ProductNormal:
+    def __init__(self, name: str, price: float, quantity: int):
+        self.name = name
+        self.price = price
+        self.quantity = quantity
+
+    def __repr__(self):
+        return f"ProductNormal(name={self.name!r}, price={self.price}, quantity={self.quantity})"
+
+    def __eq__(self, other):
+        if not isinstance(other, ProductNormal):
+            return False
+        return (self.name, self.price, self.quantity) == (other.name, other.price, other.quantity)
+
+p1=ProductNormal("Laptop", 2345.45, 2)
+p2=ProductNormal("Laptop", 2345.45, 2)
+print(p1==p2) #True
+
+from dataclasses import dataclass
+
+@dataclass
+class ProductData:
+    name: str
+    price: float
+    quantity: int
+p3=ProductNormal("Laptop", 2345.45, 2)
+p4=ProductNormal("Laptop", 2345.45, 2)
+print(p3==p4)
+#The @dataclass decorator automatically generates __init__, __repr__, and __eq__ based on the type hints. 
+"""
+Why use frozen=True?
+Safety: It prevents accidental bugs where data is modified unexpectedly in different parts of your code.
+Hashability: Frozen dataclasses automatically generate a __hash__ method. This allows you to use the object as a key in a dictionary or store it in a set, which you cannot do with a normal mutable dataclass.
+"""
+from dataclasses import replace
+
+# Create a new object based on p1 but with a different price
+# p2 = replace(p1, price=1150.0)
+
+# print(p1.price) # 1200.0 (unchanged)
+# print(p2.price) # 1150.0 (new instance)
+t1 = (1, 2, "hello")
+t2 = (1, 2, "hello")
+print(t1 is t2)  # This will be True because tuples are interned
+t1 = (1, [2], "hello")
+t2 = (1, [2], "hello")
+print(t1 is t2)  # This will be False
+
+def log(fn):
+    def wrapper(*args, **kwargs):
+        print(f'The function {fn.__name__} started execution!')
+        return fn(*args, **kwargs) #positional arguments (*args) must come first, followed by keyword arguments (**kwargs).
+    return wrapper
+
+@log
+def add(a:int, b:int)->int:
+    return a+b
+print(add(5,3))
